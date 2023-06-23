@@ -2,29 +2,57 @@ from __future__ import print_function
 
 import sys
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import to_date, count
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
 import datetime
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
-        sys.exit(-1)
 
-    filein = sys.argv[1]
-    fileout = sys.argv[2]
-    
-    # in pyspark shell start with:
-    #   filein = "hdfs://cm:9000/uhadoop/shared/imdb/imdb-ratings-two.tsv"
-    #   fileout = "hdfs://cm:9000/uhadoop2023/lospergua/series-avg-two-py/"
-    # and continue line-by-line from here
+if len(sys.argv) != 3:
+    print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
+    sys.exit(-1)
 
-    spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
+# filein = sys.argv[1]
+# fileout = sys.argv[2]
 
-    df = spark.read.csv(filein, header=True)
+filein = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
+fileout = "---" 
+spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
 
-    df = df.withColumn("date", to_date(df["created_utc"]))
+# schema = StructType() \
+#     .add("type", StringType(), True) \
+#     .add("id", StringType(), True) \
+#     .add("subrredit.id", StringType(), True) \
+#     .add("subreddit.name", StringType(), True) \
+#     .add("subreddit.nswf", BooleanType(), True) \
+#     .add("created_utc", TimestampType(), True) \
+#     .add("permalink", StringType(), True) \
+#     .add("body", StringType(), True) \
+#     .add("sentiment", DoubleType(), True) \
+#     .add("score", IntegerType(), True) 
 
-    count_by_date = df.groupBy("date").agg(count("*").alias("count"))
+df = spark.read.format("csv") \
+  .option("header", "true") \
+  .option("inferSchema", "true") \
+  .option("quote", "\"") \
+  .option("escape", "\"") \
+  .option("multiline", "true") \
+  .load(filein)
 
-    # Mostrar los resultados
-    count_by_date.show()
+# df = spark.read.format("csv") \
+#     .option("header", "true") \
+#     .option("schema", schema) \
+#     .option("quote", "\"") \
+#     .option("escape", "\"") \
+#     .option("multiline", "true") \
+#     .load(filein)
+
+df = spark.read.csv(filein, header=True, inferSchema=True)
+
+df = df.withColumn("date", from_unixtime(df["created_utc"]))
+
+count_by_date = df.groupBy("date").agg(count("*").alias("count"))
+
+
+count_by_date.write.csv(fileout)
+
