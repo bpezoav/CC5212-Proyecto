@@ -9,7 +9,7 @@ import datetime
 
 
 if len(sys.argv) != 3:
-    print("Usage: MainQuery.py <filein> <fileout>", file=sys.stderr)
+    print("Usage: MainRDD.py <filein> <fileout>", file=sys.stderr)
     sys.exit(-1)
 
 filein = sys.argv[1]
