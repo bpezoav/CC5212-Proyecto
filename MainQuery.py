@@ -7,16 +7,7 @@ from pyspark.sql.types import *
 
 import datetime
 
-
-if len(sys.argv) != 3:
-    print("Usage: MainQuery.py <filein> <fileout>", file=sys.stderr)
-    sys.exit(-1)
-
-# filein = sys.argv[1]
-# fileout = sys.argv[2]
-
-filein = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
-fileout = "---" 
+data = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
 spark = SparkSession.builder.appName("MainQuery").getOrCreate() # Create a spark session
 
 df = spark.read.format("csv") \
@@ -25,8 +16,9 @@ df = spark.read.format("csv") \
   .option("quote", "\"") \
   .option("escape", "\"") \
   .option("multiline", "true") \
-  .load(filein)
+  .load(data)
 
+# Lectura
 df = df.withColumn("date", from_unixtime(df["created_utc"]))
 
 # Obtenemos los comentarios con sentimiento negativo. Consideramos sentimiento negativo como aquellas filas con df[@"sentiment"] < -0.25
@@ -37,11 +29,12 @@ denial_comments_subreddit = denial_comments.groupBy("subreddit_name").agg(count(
 
 # Hacemos un conteo de comentarios negativos agrupando por año y mes
 denial_comments_month = denial_comments.groupBy(year("date").alias("year"), month("date").alias("month")).agg(count("*").alias("month_count"))
+
 # Los ordenamos de forma descendente por conteo
 denial_comments_month = denial_comments_month.orderBy(desc("month_count"))
 denial_comments_subreddit = denial_comments_subreddit.orderBy(desc("subrredit_count"))
 
-# Hacemos el fileout
+# Escribimos los dataframes como csv
 denial_comments_subreddit.write.csv("/uhadoop/2023/lospergua/denial_comments_subreddit")
 denial_comments_month.write.csv("/uhadoop/2023/lospergua/denial_comments_month")
 
