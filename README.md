@@ -1,6 +1,5 @@
-# CC5212-Proyecto
-## CC5212 - Procesamiento Masivo de Datos/Big Data | Proyecto Semestral
-### Mario González O., Bastián Pezoa V. & Michael Scott S. - Grupo 16
+# CC5212 - Procesamiento Masivo de Datos/Big Data | Proyecto Semestral
+## Mario González O., Bastián Pezoa V. & Michael Scott S. - Grupo 16
 
 Este proyecto utiliza el dataset de The Reddit Climate Change Dataset (https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset). Se llevan a cabo métodos de procesamiento masivo de datos mediante el framework de Apache Spark y su API en Python (PySpark).
 
