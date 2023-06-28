@@ -1,0 +1,58 @@
+from __future__ import print_function
+
+import sys
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+import datetime
+
+
+if len(sys.argv) != 3:
+    print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
+    sys.exit(-1)
+
+# filein = sys.argv[1]
+# fileout = sys.argv[2]
+
+filein = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
+fileout = "---" 
+spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
+
+# schema = StructType() \
+#     .add("type", StringType(), True) \
+#     .add("id", StringType(), True) \
+#     .add("subrredit.id", StringType(), True) \
+#     .add("subreddit.name", StringType(), True) \
+#     .add("subreddit.nswf", BooleanType(), True) \
+#     .add("created_utc", TimestampType(), True) \
+#     .add("permalink", StringType(), True) \
+#     .add("body", StringType(), True) \
+#     .add("sentiment", DoubleType(), True) \
+#     .add("score", IntegerType(), True) 
+
+df = spark.read.format("csv") \
+  .option("header", "true") \
+  .option("inferSchema", "true") \
+  .option("quote", "\"") \
+  .option("escape", "\"") \
+  .option("multiline", "true") \
+  .load(filein)
+
+# df = spark.read.format("csv") \
+#     .option("header", "true") \
+#     .option("schema", schema) \
+#     .option("quote", "\"") \
+#     .option("escape", "\"") \
+#     .option("multiline", "true") \
+#     .load(filein)
+
+df = spark.read.csv(filein, header=True, inferSchema=True)
+
+df = df.withColumn("date", from_unixtime(df["created_utc"]))
+
+count_by_date = df.groupBy("date").agg(count("*").alias("count"))
+
+
+count_by_date.write.csv(fileout)
+
