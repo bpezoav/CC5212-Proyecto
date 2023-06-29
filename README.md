@@ -16,11 +16,11 @@ Para esclarecer, los comentarios con un puntaje de sentimiento entre [-0.25, 0.2
 
 Las consultas realizadas fueron las siguientes:
 
-- Ha existido un aumento en los comentarios negacionistas a lo largo del tiempo?
-- Existe alguna relación entre el puntaje de sentimiento y la cantidad de upvotes?
-- Cual ha sido el promedio de puntaje de sentimiento a lo largo de los años?
-- Cuales son las estadisticas sobre el puntaje de sentimiento en cada subreddit?
-- Cual es la cantidad de comentarios neutros, negativos y positivos en cada subreddit?
-- Hay alguna diferencia entre el promedio de puntaje de sentimiento de los comentarios NSFW y los que no lo son, a lo largo de los años?
+- ¿Ha existido un aumento en los comentarios negacionistas a lo largo del tiempo?
+- ¿Existe alguna relación entre el puntaje de sentimiento y la cantidad de upvotes?
+- ¿Cuál ha sido el promedio de puntaje de sentimiento a lo largo de los años?
+- ¿Cuáles son las estadisticas sobre el puntaje de sentimiento en cada subreddit?
+- ¿Cuál es la cantidad de comentarios neutros, negativos y positivos en cada subreddit?
+- ¿Hay alguna diferencia entre el promedio de puntaje de sentimiento de los comentarios NSFW y los que no lo son, a lo largo de los años?
 
 Cada una de estas consultas se busca responder en los archivos .py de este repositorio mediante la utilización de DataFrames de PySpark.
