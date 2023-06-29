@@ -5,18 +5,14 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
-import datetime
-
 
 if len(sys.argv) != 3:
     print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
     sys.exit(-1)
 
-# filein = sys.argv[1]
-# fileout = sys.argv[2]
+filein = sys.argv[1]
+fileout = sys.argv[2]
 
-filein = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
-fileout = "---" 
 spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
 
 df = spark.read.format("csv") \
@@ -27,10 +23,13 @@ df = spark.read.format("csv") \
   .option("multiline", "true") \
   .load(filein)
 
-df = spark.read.csv(filein, header=True, inferSchema=True)
-
 df = df.withColumn("date", from_unixtime(df["created_utc"]))
+df = df.filter("sentiment IS NOT NULL")
 
 # Obtener el promedio de sentiment score por subreddit
-avg_sentiment = df.groupBy("subreddit.name").agg(avg("sentiment").alias("avg_sentiment"))
+avg_sentiment = df.groupBy("subreddit_name").agg(avg("sentiment").alias("avg_sentiment"))
+
+# Ordenamos de manera ascendente
+avg_sentiment = avg_sentiment.orderBy(asc("avg_sentiment"))
+
 avg_sentiment.write.csv(fileout)
