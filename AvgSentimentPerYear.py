@@ -36,3 +36,4 @@ avg_sentiment = avg_sentiment.orderBy(desc("year"))
 #escribimos el archivo de salida
 avg_sentiment.write.csv(fileout)
 
+spark.stop()

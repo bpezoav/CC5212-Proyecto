@@ -26,10 +26,27 @@ df = spark.read.format("csv") \
 df = df.withColumn("date", from_unixtime(df["created_utc"]))
 df = df.filter("sentiment IS NOT NULL")
 
+# Obtener el minimo valor de sentiment score por subreddit
+min_sentiment = df.groupBy("subreddit_name").agg(min("sentiment").alias("min_sentiment"))
+
+# Obtener el maximo valor de sentiment score por subreddit
+max_sentiment = df.groupBy("subreddit_name").agg(max("sentiment").alias("max_sentiment"))
+
 # Obtener el promedio de sentiment score por subreddit
 avg_sentiment = df.groupBy("subreddit_name").agg(avg("sentiment").alias("avg_sentiment"))
 
-# Ordenamos de manera ascendente
-avg_sentiment = avg_sentiment.orderBy(asc("avg_sentiment"))
+# Obtener la mediana de sentiment score por subreddit
+median_sentiment = df.groupBy("subreddit_name").agg(expr("percentile(sentiment, 0.5)").alias("median_sentiment"))
 
-avg_sentiment.write.csv(fileout)
+# Obtener la desviacion estandard de sentiment score por subreddit
+std_sentiment = df.groupBy("subreddit_name").agg(stddev("sentiment").alias("std_sentiment"))
+
+# Unimos los dataframes
+min_sentiment = min_sentiment.join(max_sentiment, "subreddit_name")
+min_sentiment = min_sentiment.join(avg_sentiment, "subreddit_name")
+min_sentiment = min_sentiment.join(median_sentiment, "subreddit_name")
+min_sentiment = min_sentiment.join(std_sentiment, "subreddit_name")
+
+min_sentiment.write.csv(fileout)
+
+spark.stop()

@@ -35,3 +35,5 @@ df = df.groupBy("subreddit_name").agg(sum("neutral_count").alias("neutral_count"
 
 # Escribimos los dataframes como csv
 df.write.csv(fileout)
+
+spark.stop()

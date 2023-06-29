@@ -33,3 +33,4 @@ denial_comments_month = denial_comments_month.orderBy(desc("month_count"))
 # Escribimos los dataframes como csv
 denial_comments_month.write.csv("/uhadoop/2023/lospergua/denial_comments_month")
 
+spark.stop()
