@@ -9,15 +9,14 @@ import datetime
 
 
 if len(sys.argv) != 3:
-    print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
+    print("Usage: CorrelationSentimentScore.py <filein> <fileout>", file=sys.stderr)
     sys.exit(-1)
 
-# filein = sys.argv[1]
-# fileout = sys.argv[2]
+filein = sys.argv[1]
+fileout = sys.argv[2]
 
 filein = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
-fileout = "---" 
-spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
+spark = SparkSession.builder.appName("CorrelationSentimentScore").getOrCreate() # Create a spark session
 
 df = spark.read.format("csv") \
   .option("header", "true") \

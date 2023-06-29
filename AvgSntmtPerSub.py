@@ -7,13 +7,13 @@ from pyspark.sql.types import *
 
 
 if len(sys.argv) != 3:
-    print("Usage: MyFirstQuery.py <filein> <fileout>", file=sys.stderr)
+    print("Usage: AvgSntmtPerSub.py <filein> <fileout>", file=sys.stderr)
     sys.exit(-1)
 
 filein = sys.argv[1]
 fileout = sys.argv[2]
 
-spark = SparkSession.builder.appName("MyFirstQuery").getOrCreate() # Create a spark session
+spark = SparkSession.builder.appName("AvgSntmtPerSub").getOrCreate() # Create a spark session
 
 df = spark.read.format("csv") \
   .option("header", "true") \
