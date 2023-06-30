@@ -27,8 +27,7 @@ df = df.withColumn("date", from_unixtime(df["created_utc"]))
 # Coef de correlacion de Pearson entre el sentimiento y el score
 pearson_correlation = df.stat.corr("sentiment", "score")
 
-# Escribimos el valor en un archivo txt
-with open(fileout, "w") as f:
-    f.write(str(pearson_correlation))
+# Mostramos el valor por pantalla
+print("Pearson correlation between sentiment and score is: %s" % pearson_correlation)
 
 spark.stop()

@@ -1,6 +1,0 @@
-Considerando la siguiente escala de sentimientos:
- Positivo = [0.25, 1], Neutro = [-0.25, 0.25], Negativo = [-1, -0.25]
-
-- Obtener el promedio de upvotes de comentarios con sentimientos negativos
-- Hacer un conteo de comentarios negativos por subreddit
-- Hacer un conteo de comentarios negativos por mes y año
