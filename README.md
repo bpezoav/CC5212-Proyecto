@@ -8,7 +8,7 @@
 
 Para este proyecto se utilizo el dataset *["The Reddit Climate Change Dataset"](https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset?select=the-reddit-climate-change-dataset-comments.csv)*. Este contiene distintos comentarios y publicaciones realizadas por usuarios de Reddit desde el año 2017 hasta la fecha del 1 de Septiembre del 2022, en el cual se mencionen los terminos "climate" y "change". El dataset contiene 2 archivos .csv, uno con los comentarios y otro con los posts. Para este proyecto se utilizo el archivo de comentarios el cual contiene, la fecha de creación, el nombre del subreddit donde se realizo el comentario y si este es "Not Safe For Work (NSFW)", una puntuación que define el "sentimiento" del comentario y la cantidad de upvotes (o score) del comentario.
 
-Este proyecto busca intentar obtener algun tipo de relación entre comentarios considerados "negacionistas" y las diferentes variables que el dataset contiene realizando consultas sobre este utilizando PySpark.
+Este proyecto busca capturar información acerca de las correlaciones y tendencias entre el sentimiento de los diferentes comentarios en los subrredits y las diferentes variables que el dataset contiene, realizando consultas sobre este utilizando PySpark.
 
 Para esclarecer, los comentarios con un puntaje de sentimiento entre [-0.25, 0.25] son considerados neutros. Entre [-1, -0.25] son considerados negativos, o negacionistas, y entre [0.25, 1] son considerados positivos.
 
