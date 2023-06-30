@@ -1,11 +1,26 @@
-# CC5212 - Procesamiento Masivo de Datos/Big Data | Proyecto Semestral
-## Mario González O., Bastián Pezoa V. & Michael Scott S. - Grupo 16
+# CC5212-Proyecto
 
-Este proyecto utiliza el dataset de The Reddit Climate Change Dataset (https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset). Se llevan a cabo métodos de procesamiento masivo de datos mediante el framework de Apache Spark y su API en Python (PySpark).
+## CC5212 - Procesamiento Masivo de Datos (Big Data) | Proyecto Semestral
 
-Se hacen queries para capturar información acerca de las correlaciones y tendencias entre el sentimiento de los comentarios en los distintos subreddits y las otras variables disponibles en el dataset (por ejemplo, se visualizan cuáles son los subreddits con comentarios más negativos, entre otras queries).
+### Mario González O., Bastián Pezoa V. & Michael Scott S.comments_per_subreddit
 
-Cabe destacar que el dataset ya viene con una variable entre -1 y 1 que clasifica cada comentario en un sentimiento en específico, sobre la cual se consideró:
-- Negativo si el sentimiento está entre -1 y -0.25
-- Negativo si el sentimiento está entre -0.25 y 0.25
-- Negativo si el sentimiento está entre 0.25 y 1
+<br>
+
+Para este proyecto se utilizo el dataset *["The Reddit Climate Change Dataset"](https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset?select=the-reddit-climate-change-dataset-comments.csv)*. Este contiene distintos comentarios y publicaciones realizadas por usuarios de Reddit desde el año 2017 hasta la fecha del 1 de Septiembre del 2022, en el cual se mencionen los terminos "climate" y "change". El dataset contiene 2 archivos .csv, uno con los comentarios y otro con los posts. Para este proyecto se utilizo el archivo de comentarios el cual contiene, la fecha de creación, el nombre del subreddit donde se realizo el comentario y si este es "Not Safe For Work (NSFW)", una puntuación que define el "sentimiento" del comentario y la cantidad de upvotes (o score) del comentario.
+
+Este proyecto busca capturar información acerca de las correlaciones y tendencias entre el sentimiento de los diferentes comentarios en los subrredits y las diferentes variables que el dataset contiene. Para ello se llevan a cabo métodos de procesamiento masivo de datos mediante el framework de Apache Spark y su API para el lenguaje Python (PySpark).
+
+Para esclarecer, los comentarios con un puntaje de sentimiento entre [-0.25, 0.25] son considerados neutros. Entre [-1, -0.25] son considerados negativos, o negacionistas, y entre [0.25, 1] son considerados positivos.
+
+## Consultas
+
+Las consultas realizadas fueron las siguientes:
+
+- ¿Ha existido un aumento en los comentarios negacionistas a lo largo del tiempo?
+- ¿Existe alguna relación entre el puntaje de sentimiento y la cantidad de upvotes?
+- ¿Cuál ha sido el promedio de puntaje de sentimiento a lo largo de los años?
+- ¿Cuáles son las estadisticas sobre el puntaje de sentimiento en cada subreddit?
+- ¿Cuál es la cantidad de comentarios neutros, negativos y positivos en cada subreddit?
+- ¿Hay alguna diferencia entre el promedio de puntaje de sentimiento de los comentarios NSFW y los que no lo son, a lo largo de los años?
+
+Cada una de estas consultas se busca responder en los archivos .py de este repositorio mediante la utilización de DataFrames de PySpark.
