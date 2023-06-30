@@ -7,8 +7,14 @@ from pyspark.sql.types import *
 
 import datetime
 
-data = "hdfs://cm:9000/uhadoop2023/proyects/lospergua/the-reddit-climate-change-dataset-comments.csv"
-spark = SparkSession.builder.appName("MainQuery").getOrCreate() # Create a spark session
+if len(sys.argv) != 3:
+    print("Usage: DenialsPerDate.py <filein> <fileout>", file=sys.stderr)
+    sys.exit(-1)
+
+filein = sys.argv[1]
+fileout = sys.argv[2]
+
+spark = SparkSession.builder.appName("DenialsPerDate").getOrCreate() # Create a spark session
 
 df = spark.read.format("csv") \
   .option("header", "true") \
@@ -16,7 +22,7 @@ df = spark.read.format("csv") \
   .option("quote", "\"") \
   .option("escape", "\"") \
   .option("multiline", "true") \
-  .load(data)
+  .load(filein)
 
 # Lectura
 df = df.withColumn("date", from_unixtime(df["created_utc"]))
@@ -31,6 +37,6 @@ denial_comments_month = denial_comments.groupBy(year("date").alias("year"), mont
 denial_comments_month = denial_comments_month.orderBy(desc("month_count"))
 
 # Escribimos los dataframes como csv
-denial_comments_month.write.csv("/uhadoop/2023/lospergua/denial_comments_month")
+denial_comments_month.write.csv(fileout)
 
 spark.stop()
