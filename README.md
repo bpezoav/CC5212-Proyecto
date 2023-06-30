@@ -2,7 +2,7 @@
 
 ## CC5212 - Procesamiento Masivo de Datos (Big Data) | Proyecto Semestral
 
-### Mario González O., Bastián Pezoa V. & Michael Scott S.
+### Mario González O., Bastián Pezoa V. & Michael Scott S. -- Grupo 16
 
 <br>
 
